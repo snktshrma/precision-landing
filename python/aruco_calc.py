@@ -24,8 +24,10 @@ R_flip[1,1] = -1.0 # -1.0
 R_flip[2,2] =-1.0 # -1.0
 
 #--- Define the aruco dictionary
-aruco_dict  = aruco.Dictionary_get(aruco.DICT_6X6_250)
-parameters  = aruco.DetectorParameters_create()
+dictionary = aruco.getPredefinedDictionary(aruco.DICT_6X6_250)
+parameters =  aruco.DetectorParameters()
+detector = aruco.ArucoDetector(dictionary, parameters)
+
 
 #-- Font for the text in the image
 font = cv2.FONT_HERSHEY_PLAIN
@@ -62,7 +64,7 @@ def aru(frame):
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
     #-- Find all the aruco markers in the image
-    corners, ids, rejected = aruco.detectMarkers(image=gray, dictionary=aruco_dict, parameters=parameters)#, cameraMatrix=camera_matrix, distCoeff=camera_distortion)
+    corners, ids, rejected = detector.detectMarkers(gray)#, cameraMatrix=camera_matrix, distCoeff=camera_distortion)
     #print(ids)
     pos_camera = [0,0,0]
 
