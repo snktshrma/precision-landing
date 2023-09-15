@@ -46,7 +46,7 @@ class Cam_stream():
         if self.frame_available():
             return self.frame
         else:
-            return []
+            return 0
 
 
 
