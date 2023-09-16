@@ -15,8 +15,9 @@ import sys
 
 
 takeoff_alt = 5
-target_pos = [2,-2]
+target_pos = [10,-9]
 localPos = [0,0,0,0]
+localVel = [0,0,0,0]
 globalPos = [0,0,0,0,0]
 check = 0
 flag = 0
@@ -102,7 +103,7 @@ class fcuModes:
         global globalPos
         msg = the_connection.recv_match(type='GLOBAL_POSITION_INT', blocking=False)
         if msg:
-            logging.info("GPS message recieved")
+            #logging.info("GPS message recieved")
             globalPos[0] = msg.lat / 1e7
             globalPos[1] = msg.lon / 1e7
             globalPos[2] = msg.alt / 1000.0
@@ -115,14 +116,16 @@ class fcuModes:
 
 
     def recvLocal(self):
-        global localPos
+        global localPos, localVel
         msg = the_connection.recv_match(type='LOCAL_POSITION_NED', blocking=False)
 
         if msg:
-            logging.info("Local message recieved")
+            #logging.info("Local message recieved")
             localPos[0] = msg.x
             localPos[1] = msg.y
             localPos[2] = msg.z
+            localVel[0] = msg.vx
+            localVel[1] = msg.vy
             return 1
         else:
             #logging.warning("Local message not recieved yet")
@@ -225,10 +228,20 @@ def main():
         if not pos:
             continue
         else:
-            if abs(target_pos[0] - localPos[0]) <= 0.2 and abs(target_pos[1] - localPos[1]) <= 0.2 and not flag:      ##### confirm if loop is necessary or a single iteration is accurate enough for getting x and y errors under 0
-                mode.setPosLocal(-pos[1],-pos[0],0)
-                time.sleep(2)
+            if abs(target_pos[0] - localPos[0]) <= 0.2 and abs(target_pos[1] - localPos[1]) <= 0.2 and abs(localVel[0]) <= 0.1 and abs(localVel[1]) <= 0.1 and not flag:      ##### confirm if loop is necessary or a single iteration is accurate enough for getting x and y errors under 0
+                
+                time.sleep(3)
+                flag = 1
+                continue
+
+
+                
+                
+
+            elif abs(target_pos[0] - localPos[0]) <= 0.2 and abs(target_pos[1] - localPos[1]) <= 0.2 and abs(localVel[0]) <= 0.1 and abs(localVel[1]) <= 0.1 and flag == 1:      ##### confirm if loop is necessary or a single iteration is accurate enough for getting x and y errors under 0
+                mode.setPosLocal(pos[1],pos[0],0)
                 print(pos)
+                
                 flag = 1
             elif abs(pos[0]) <= 0.2 and abs(pos[1]) <= 0.2:
                 mode.setAutoLandMode()

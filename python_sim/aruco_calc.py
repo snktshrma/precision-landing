@@ -87,4 +87,11 @@ def aru(frame):
 
         #-- Now get Position and attitude of the camera respect to the marker
         pos_camera = -R_tc*np.matrix(tvec).T
+        aruco.drawDetectedMarkers(frame,corners)
+        str_position = "Marker Position x=%4.0f y=%4.0f z=%4.0f"%(tvec[0],tvec[1],tvec[2])
+        cv2.putText(frame, str_position, (0,100), font, 1, (0,255,0),2,cv2.LINE_AA)
+
+        cv2.imshow('frame',frame)
+
+        key = cv2.waitKey(1) & 0xFF
         return marker_pos_rel_camera
