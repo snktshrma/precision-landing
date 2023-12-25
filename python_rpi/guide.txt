@@ -4,7 +4,7 @@ To setup Rpi Cam
 2. Add wifi to /etc/netplan/50-cloud-init.yaml
 3. Connect camera to RPi and under /boot/config.txt, add start_x=1
 4. update and upgrade using apt.
-5. pip install opencv-python opencv-contrib-python
+5. pip install opencv-python opencv-contrib-python pymavlink sockets numpy python python-signal
 6. To install opencv dependencies, sudo apt-get update && apt-get install ffmpeg libsm6 libxext6  -y 
 7. Run client.py on RPi
 8. Run server.py on Computer
