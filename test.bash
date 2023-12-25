@@ -31,6 +31,13 @@ install_package "opencv-python opencv-contrib-python"
 echo -e "\e[1;34mInstalling pymavlink...\e[0m"
 install_package "pymavlink"
 
+echo -e "\e[1;34mInstalling sockets, numpy, tf, logging, python-signal...\e[0m"
+install_package "sockets"
+install_package "numpy"
+install_package "tf"
+install_package "logging"
+install_package "python-signal"
+
 echo -e "\e[1;34mUpdating and installing dependencies...\e[0m"
 sudo apt-get update
 sudo apt-get install ffmpeg libsm6 libxext6 -y
@@ -56,4 +63,3 @@ else
 fi
 
 echo -e "\e[1;32mSetup completed successfully.\e[0m"
-
