@@ -28,7 +28,8 @@ function install_package {
 echo -e "\e[1;34mInstalling OpenCV...\e[0m"
 install_package "opencv-python opencv-contrib-python"
 
-echo -e "\e[1;34mInstalling pymavlink...\e[0m"
+echo -e "\e[1;34mInstalling mavproxy and pymavlink...\e[0m"
+install_package "mavproxy"
 install_package "pymavlink"
 
 echo -e "\e[1;34mInstalling sockets, numpy, tf, logging, python-signal...\e[0m"
